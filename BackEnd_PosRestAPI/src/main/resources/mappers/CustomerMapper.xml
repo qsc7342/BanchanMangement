@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bcpos.bcpos.mapper.customer.CustomerMapper">
+    <resultMap id="dailyCustomerMap" type="com.bcpos.bcpos.domain.customer.DailyCustomer">
+        <result property="date" column="sale_date"></result>
+        <result property="number" column="count"></result>
+    </resultMap>
+
+    <select id="getDailyCustomer" resultMap="dailyCustomerMap" parameterType="hashMap"><![CDATA[
+            SELECT SALE_DATE, COUNT(*)
+            FROM SLE_SALE_DETAIL
+            WHERE TO_CHAR(TO_DATE(SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') >= #{prev}
+                  AND TO_CHAR(TO_DATE(SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') <= #{next}
+            GROUP BY SALE_DATE
+            ORDER BY SALE_DATE
+        ]]></select>
+</mapper>

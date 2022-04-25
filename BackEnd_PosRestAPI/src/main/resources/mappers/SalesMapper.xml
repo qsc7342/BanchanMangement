@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bcpos.bcpos.mapper.sales.SalesMapper">
+    <resultMap id="dailySalesMap" type="com.bcpos.bcpos.domain.sales.Sales">
+        <result property="date" column="salesDate"></result>
+        <result property="sales" column="sales"></result>
+    </resultMap>
+
+    <resultMap id="monthlySalesMap" type="com.bcpos.bcpos.domain.sales.MonthlySales">
+        <result property="year" column="year"></result>
+        <result property="month" column="month"></result>
+        <result property="sales" column="sales"></result>
+    </resultMap>
+
+    <resultMap id="yearlySalesMap" type="com.bcpos.bcpos.domain.sales.YearlySales">
+        <result property="year" column="year"></result>
+        <result property="sales" column="sales"></result>
+    </resultMap>
+
+    <resultMap id="dailyMenuSalesMap" type="com.bcpos.bcpos.domain.sales.DailyMenuSales">
+        <result property="date" column="DATE"></result>
+<!--        <result property="menuCode" column="CODE"></result>-->
+<!--        <result property="menuName" column="ITEM_NAME"></result>-->
+        <result property="sales" column="SALES"></result>
+    </resultMap>
+
+    <resultMap id="monthlyMenuSalesMap" type="com.bcpos.bcpos.domain.sales.MonthlyMenuSales">
+        <result property="year" column="YEAR"></result>
+        <result property="month" column="MONTH"></result>
+        <result property="menuCode" column="CODE"></result>
+        <result property="menuName" column="ITEM_NAME"></result>
+        <result property="sales" column="SALES"></result>
+    </resultMap>
+
+    <resultMap id="menuTypeSalesMap" type="com.bcpos.bcpos.domain.sales.MenuTypeSales">
+<!--        <result property="date" column="DATE"></result>-->
+        <result property="menuType" column="MENU_TYPE"></result>
+        <result property="sales" column="SALES"></result>
+    </resultMap>
+
+    <select id="getDailySales" resultMap="dailySalesMap" parameterType="hashMap"><![CDATA[
+            SELECT TO_CHAR(TO_DATE(SALE_DATE, 'YYYYMMDD'), 'YYYY.MM.DD') AS SALESDATE,
+                   SUM(TOTAL_AMT) AS SALES
+            FROM SLE_SALE_DETAIL
+            WHERE TO_CHAR(TO_DATE(SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') >= #{prev}
+                  AND TO_CHAR(TO_DATE(SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') <= #{next}
+            GROUP BY SALESDATE
+            ORDER BY SALESDATE
+        ]]></select>
+
+    <select id="getMonthlySales" resultMap="monthlySalesMap" parameterType="hashMap"><![CDATA[
+            SELECT EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) AS YEAR,
+                   EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) AS MONTH,
+                   SUM(TOTAL_AMT) AS SALES
+            FROM SLE_SALE_DETAIL
+            WHERE
+            	EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) >= #{prevYear}
+            	AND EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) <= #{nextYear}
+            	AND
+            	EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) >= #{prevMonth}
+            	AND EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) <= #{nextMonth}
+            GROUP BY
+                YEAR, MONTH
+            ORDER BY
+                YEAR, MONTH
+            ]]></select>
+
+    <select id="getYearlySales" resultMap="yearlySalesMap" parameterType="hashMap"><![CDATA[
+            SELECT
+               EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) AS YEAR,
+               SUM(TOTAL_AMT) AS SALES
+            FROM
+                SLE_SALE_DETAIL
+            WHERE
+            	EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) >= #{prevYear}
+            	AND EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) <= #{nextYear}
+            GROUP BY
+                YEAR
+            ORDER BY
+                YEAR
+            ]]></select>
+
+    <select id="getDailyMenuSales" resultMap="dailyMenuSalesMap" parameterType="hashMap"><![CDATA[
+        SELECT SLE_SALE_DETAIL.SALE_DATE AS DATE,
+               SUM(SLE_SALE_DETAIL.TOTAL_AMT) AS SALES
+        FROM MST_ITEM
+        JOIN SLE_SALE_DETAIL
+        ON MST_ITEM.ITEM_CODE = SLE_SALE_DETAIL.ITEM_CODE
+        WHERE TO_CHAR(TO_DATE(SLE_SALE_DETAIL.SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') >= #{prev}
+        AND TO_CHAR(TO_DATE(SLE_SALE_DETAIL.SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') <= #{next}
+        AND ITEM_NAME = #{name}
+        GROUP BY DATE
+        ORDER BY DATE
+        ]]></select>
+
+    <select id="getMonthlyMenuSales" resultMap="monthlyMenuSalesMap" parameterType="hashMap"><![CDATA[
+        SELECT EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) AS YEAR,
+               EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) AS MONTH,
+               MST_ITEM.ITEM_CODE AS CODE,
+               MST_ITEM.ITEM_NAME AS ITEM_NAME,
+               SUM(SLE_SALE_DETAIL.TOTAL_AMT) AS SALES
+        FROM MST_ITEM
+        JOIN SLE_SALE_DETAIL
+        ON MST_ITEM.ITEM_CODE = SLE_SALE_DETAIL.ITEM_CODE
+        WHERE
+            EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) >= #{prevYear}
+            AND EXTRACT(YEAR FROM TO_DATE(SALE_DATE, 'YYYYMMDD')) <= #{nextYear}
+            AND
+            EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) >= #{prevMonth}
+            AND EXTRACT(MONTH FROM to_date(sale_date , 'YYYYMMDD')) <= #{nextMonth}
+        GROUP BY YEAR, MONTH, CODE, ITEM_NAME
+        ORDER BY YEAR, MONTH, CODE
+        ]]></select>
+
+    <select id="getSalesByType" resultMap="menuTypeSalesMap" parameterType="hashMap"><![CDATA[
+     SELECT MST_ITEM.SMALL_SCALE AS MENU_TYPE,
+            SUM(SLE_SALE_DETAIL.TOTAL_AMT) AS SALES
+    FROM MST_ITEM
+    JOIN SLE_SALE_DETAIL
+    ON MST_ITEM.ITEM_CODE = SLE_SALE_DETAIL.ITEM_CODE
+    WHERE TO_CHAR(TO_DATE(SLE_SALE_DETAIL.SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') >= #{prev}
+    AND TO_CHAR(TO_DATE(SLE_SALE_DETAIL.SALE_DATE, 'YYYYMMDD'), 'YYYYMMDD') <= #{next}
+    GROUP BY MENU_TYPE
+    ORDER BY MENU_TYPE
+    ]]></select>
+</mapper>

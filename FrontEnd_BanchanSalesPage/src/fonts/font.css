@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Doungle";
+  font-weight: 50;
+  src: url("./Dongle-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NanumBrush";
+  font-weight: 50;
+  src: url("./NanumBrush.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Binggrae";
+  font-weight: 50;
+  src: url("./BinggraeSamanco.ttf") format("truetype");
+}

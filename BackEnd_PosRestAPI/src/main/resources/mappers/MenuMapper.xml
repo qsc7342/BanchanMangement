@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bcpos.bcpos.mapper.menu.MenuMapper">
+    <resultMap id="menuListMap" type="com.bcpos.bcpos.domain.menu.Menu">
+        <result property="menuCode" column="ITEM_CODE"></result>
+        <result property="menuName" column="ITEM_NAME"></result>
+        <result property="menuType" column="SMALL_SCALE"></result>
+        <result property="price" column="ITEM_PRICE"></result>
+    </resultMap>
+
+    <select id="getMenuList" resultMap="menuListMap" parameterType="hashmap"> <![CDATA[
+        SELECT ITEM_CODE,
+               ITEM_NAME,
+               SMALL_SCALE,
+               ITEM_PRICE
+        FROM MST_ITEM
+        ]]>
+        <if test="menuName != null">
+        WHERE ITEM_NAME LIKE #{menuName}
+        </if>
+        </select>
+
+    <select id="getMenuTypeList" resultType="String"> <![CDATA[
+        SELECT DISTINCT SMALL_SCALE
+        FROM MST_ITEM
+    ]]></select>
+
+    <select id="getMenuListByType" resultType="String" parameterType="hashmap"> <![CDATA[
+        SELECT DISTINCT ITEM_NAME
+        FROM MST_ITEM
+        WHERE SMALL_SCALE = #{menuType}
+    ]]></select>
+</mapper>

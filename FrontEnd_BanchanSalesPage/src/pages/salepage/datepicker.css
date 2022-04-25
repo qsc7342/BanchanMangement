@@ -1,0 +1,25 @@
+.react-datepicker {
+  font-size: 1.3rem !important;
+}
+.react-datepicker__current-month {
+  font-size: 1.5rem !important;
+}
+.react-datepicker__header {
+  padding-top: 6px !important;
+}
+.react-datepicker__navigation {
+  top: 13px !important;
+}
+.react-datepicker__day-name,
+.react-datepicker__day {
+  margin: 0.5rem !important;
+}
+.saturday {
+  color: rgb(0, 0, 255) !important;
+}
+.sunday {
+  color: rgb(255, 0, 0) !important;
+}
+.react-datepicker__day--disabled {
+  color: #cccccc !important;
+}
