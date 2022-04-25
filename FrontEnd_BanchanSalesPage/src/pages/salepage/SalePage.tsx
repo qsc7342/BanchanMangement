@@ -242,7 +242,7 @@ function SalePage() {
                   <Salesbar startDate={startDate} endDate={endDate} />
                 </div>
               ) : curPage === 2 ? (
-                <div style={{ height: "350px", width: "800px" }}>
+                <div style={{ height: "350px", width: "1000px" }}>
                   <TypeSalesbar startDate={startDate} endDate={endDate} />
                 </div>
               ) : (
