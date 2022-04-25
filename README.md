@@ -4,6 +4,7 @@
 
   ## [The 엄마 반찬가게](https://m.place.naver.com/place/1194601549/home?entry=ple)
   클릭하시면 반찬 가게 위치를 확인하실 수 있습니다.
+  반찬은 역시 더엄마
 #
 </div>
 <br/>
@@ -68,9 +69,10 @@ yarn start
 
 # Demo
 
-## ! 실제 매출 데이터입니다.
+* ## 실제 매출 데이터입니다.
+* ## 이미지를 클릭하시면 고화질로 확인하실 수 있습니다.
 </br>
-<img src="https://user-images.githubusercontent.com/29935107/165137393-ef5200bc-d7de-4a4c-b43d-b42d4a2752f8.png" width="100%" height="100%">
-<img src="https://user-images.githubusercontent.com/29935107/165137768-10554da4-71df-462c-83ed-f6a129f4cae7.png" width="100%" height="100%">
-<img src="https://user-images.githubusercontent.com/29935107/165137609-8dc80379-a37f-4970-be5b-c1aff43a93c8.png" width="100%" height="100%">
+<img src="https://user-images.githubusercontent.com/29935107/165137393-ef5200bc-d7de-4a4c-b43d-b42d4a2752f8.png" width=150% height="150%">
+<img src="https://user-images.githubusercontent.com/29935107/165137768-10554da4-71df-462c-83ed-f6a129f4cae7.png" width="150%" height="150%">
+<img src="https://user-images.githubusercontent.com/29935107/165137609-8dc80379-a37f-4970-be5b-c1aff43a93c8.png" width="150%" height="150%">
 
