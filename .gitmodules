@@ -1,0 +1,6 @@
+[submodule "BCM_POS"]
+	path = BCM_POS
+	url = https://github.com/qsc7342/BCM_POS.git
+[submodule "BCM_Admin_Web"]
+	path = BCM_Admin_Web
+	url = https://github.com/qsc7342/BCM_Admin_Web.git
