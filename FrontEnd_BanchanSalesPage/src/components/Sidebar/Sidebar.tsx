@@ -45,8 +45,8 @@ function Sidebar() {
   const menus = [
     { name: "메인 화면", path: "/" },
     { name: "매출 조회", path: "/sales" },
-    { name: "예약 관리", path: "/reservation" },
-    { name: "리뷰 관리", path: "/review" },
+    // { name: "품목 비교 (Developing)", path: "/" },
+    // { name: "리뷰 관리 (Developing)", path: "/" },
   ];
   return (
     <FadeIn transitionDuration={1000}>
